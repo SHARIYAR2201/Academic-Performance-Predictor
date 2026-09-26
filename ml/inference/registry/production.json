@@ -1,0 +1,23 @@
+{
+  "classification_model_file": "classification_logistic_regression.joblib",
+  "regression_model_file": "regression_linear_regression.joblib",
+  "feature_order": [
+    "previous_gpa",
+    "previous_semester_gpa",
+    "attendance_percentage",
+    "quiz_avg",
+    "assignment_avg",
+    "midterm_score",
+    "project_score",
+    "lab_score",
+    "completed_courses",
+    "credit_load",
+    "historical_trend"
+  ],
+  "class_labels": [
+    "At Risk",
+    "Average",
+    "Excellent",
+    "Good"
+  ]
+}

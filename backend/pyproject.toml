@@ -1,0 +1,14 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = [
+    "E501",  # line length handled by formatter/line-length setting, not worth failing CI over
+    "B008",  # FastAPI's Depends()/Query() pattern is a function call in a default arg by design
+    "UP042", # `class X(str, Enum)` is kept (not enum.StrEnum) for SQLAlchemy/Pydantic v2 compatibility
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
