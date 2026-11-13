@@ -1,0 +1,20 @@
+# Streamlit-only dependencies for the public ML demo.
+#
+# This is NOT the backend environment. The FastAPI backend keeps its own
+# requirements in backend/requirements.txt. Streamlit Community Cloud installs
+# this file from the repository root.
+#
+# ML versions are pinned to the versions used to train the committed joblib
+# artifacts in ml/inference/registry/. Changing scikit-learn in particular can
+# make those artifacts unloadable, so keep it in sync with backend/requirements.txt.
+streamlit==1.67.0
+altair>=5,<7
+joblib==1.6.0
+numpy==2.5.3
+pandas==3.0.6
+pydantic==2.13.5
+pydantic-settings==2.15.0
+scikit-learn==1.9.1
+scipy==1.18.1
+shap==0.52.0
+xgboost==3.4.1

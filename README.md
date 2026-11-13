@@ -66,6 +66,30 @@ running it locally (see below); the student dashboard's prediction +
 explanation view and the instructor roster view are the two most relevant
 screens to look at first.
 
+## Live ML demo (Streamlit)
+
+A standalone Streamlit demo lives at the repository root (`streamlit_app.py`). It is
+a **read-only demonstration of the machine-learning layer**, not a replacement for
+the full application:
+
+- Loads the trained artifacts from `ml/inference/registry/` directly
+- Reuses the backend's real preprocessing, inference, risk mapping, and SHAP logic
+- Shows predicted category, LOW/MEDIUM/HIGH risk, predicted GPA, and SHAP contributions
+- Includes model-comparison metrics and a synthetic-dataset explorer
+- **No PostgreSQL, FastAPI, auth, RBAC, or persisted predictions**
+
+The Next.js + FastAPI + PostgreSQL application remains the full system. The Streamlit
+app is intended for [Streamlit Community Cloud](https://share.streamlit.io) and is
+deployed from the repository root with `streamlit_app.py` as the entrypoint.
+
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+Use Python 3.12 if possible. The root `requirements.txt` is for the Streamlit demo
+only; the backend keeps its own dependencies in `backend/requirements.txt`.
+
 ## Installation
 
 ### Prerequisites
@@ -117,6 +141,18 @@ cd ../frontend
 npm install
 npm run dev   # http://localhost:3000
 ```
+
+### Option C — Streamlit ML demo
+
+If you only want the public prediction demo (no database, backend, or Next.js):
+
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py   # http://localhost:8501
+```
+
+This path is documented in
+[docs/deployment.md](docs/deployment.md#streamlit-community-cloud-standalone-ml-demo).
 
 ## Environment setup
 
@@ -188,7 +224,9 @@ set up — documented as a known gap, see
 
 ## Deployment
 
-See [docs/deployment.md](docs/deployment.md).
+See [docs/deployment.md](docs/deployment.md). The Streamlit ML demo can be deployed
+for free on Streamlit Community Cloud; the full FastAPI + PostgreSQL + Next.js
+application still needs separate backend/database hosting.
 
 ## Limitations & honest status
 

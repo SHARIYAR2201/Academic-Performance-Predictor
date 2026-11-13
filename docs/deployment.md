@@ -1,6 +1,71 @@
 # Deployment
 
+## Streamlit Community Cloud (standalone ML demo)
+
+The repository includes a standalone Streamlit demo at the root:
+
+```text
+streamlit_app.py          # entrypoint
+requirements.txt          # Streamlit-only dependencies
+streamlit_demo/           # pages + inference adapter
+ml/inference/registry/    # committed model artifacts loaded at runtime
+```
+
+It is a public, read-only demonstration of the ML layer. It does **not** use
+PostgreSQL, FastAPI, JWT auth, RBAC, the Next.js frontend, or prediction
+persistence. The full application still requires the backend/database setup
+described below.
+
+### Deploy
+
+1. Push the repository to GitHub (the app reads committed artifacts from
+   `ml/inference/registry/` — do not delete them or move them out of the repo).
+2. Go to [share.streamlit.io](https://share.streamlit.io) and create a new app.
+3. Select:
+   - Repository: `SHARIYAR2201/Academic-Performance-Predictor`
+   - Branch: `main`
+   - Main file path: `streamlit_app.py`
+   - Python version: **3.12** if available (the ML artifacts were trained with
+     Python 3.12 / scikit-learn 1.9.1)
+4. Deploy. No secrets or environment variables are required.
+5. Optionally add the generated URL to the README.
+
+Streamlit Cloud installs the root `requirements.txt`, which pins the ML
+package versions to the ones used to train the committed joblib artifacts.
+
+### Local verification
+
+```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+### Troubleshooting
+
+- **Model artifact cannot be unpickled / missing attribute:** the installed
+  `scikit-learn` versions must match the training environment. Keep the pins in
+  the root `requirements.txt` aligned with `backend/requirements.txt`.
+- **`No module named 'app'`:** the demo adds `backend/` to `sys.path` from
+  `streamlit_demo/model.py`; make sure the app runs from the repository root.
+- **Streamlit Cloud build fails on a pinned wheel:** select Python 3.12 in the
+  app's advanced settings, or adjust only the non-artifact-critical pins.
+- **Model registry missing:** confirm `ml/inference/registry/production.json`
+  and its referenced `.joblib` files are present in the deployed commit.
+
+### What this deployment does not provide
+
+- Authentication, roles, or student-record access control
+- Database-backed student/instructor/admin dashboards
+- Saved prediction history or audit logs
+- The FastAPI API or Swagger UI
+
+Those remain part of the full application described below.
+
 ## Local (Docker Compose) — see README
+
 
 The intended local/demo deployment path. **Not run-verified in this
 environment** (no Docker daemon available) — see the README's Limitations

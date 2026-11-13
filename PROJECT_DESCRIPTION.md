@@ -190,6 +190,9 @@ this in a real deployment.
 academic-performance-predictor/
 ├── backend/          FastAPI app, SQLAlchemy models, Alembic migrations, tests
 ├── frontend/          Next.js dashboards (student / instructor / admin)
+├── streamlit_app.py   Standalone Streamlit ML demo (Community Cloud entrypoint)
+├── streamlit_demo/    Streamlit pages + backend inference adapter
+├── requirements.txt   Streamlit-only dependencies (separate from backend)
 ├── ml/                Preprocessing pipeline, training script, inference registry
 ├── data/synthetic/    Generated synthetic training data (clearly not real data)
 ├── docs/              Architecture, database, ML, security, deployment, research notes
